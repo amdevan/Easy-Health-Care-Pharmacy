@@ -28,6 +28,77 @@ const App: React.FC = () => {
 
   const cartTotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
+  const scrollToUpload = () => {
+    const element = document.getElementById('upload-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      setView('UPLOAD');
+    }
+  };
+
+  const ComingSoonSection = ({ isPage = false }: { isPage?: boolean }) => (
+    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-center ${isPage ? 'py-16' : 'py-24'}`}>
+      {isPage && (
+        <div className="absolute top-4 left-4">
+          <button onClick={() => setView('HOME')} className="text-slate-500 hover:text-primary-600 font-semibold flex items-center gap-2">
+             ← Back to Home
+          </button>
+        </div>
+      )}
+      <div className="bg-primary-50 p-8 rounded-full mb-8 ring-8 ring-primary-50/50">
+        <Store className="w-20 h-20 text-primary-600" />
+      </div>
+      
+      <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
+        Pharmacy Store <span className="text-primary-600">Coming Soon</span>
+      </h2>
+      
+      <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed">
+        We are building a comprehensive digital pharmacy experience. Soon you will be able to browse thousands of OTC medicines, wellness products, and medical devices directly from our app.
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mb-12">
+        <div className="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+          <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 mx-auto text-blue-600">
+            <Pill size={24} />
+          </div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Complete Range</h3>
+          <p className="text-slate-500">Access to a full inventory of prescription and OTC medications.</p>
+        </div>
+        
+        <div className="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+          <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-4 mx-auto text-green-600">
+            <ShieldCheck size={24} />
+          </div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">100% Authentic</h3>
+          <p className="text-slate-500">Directly sourced from authorized distributors with quality assurance.</p>
+        </div>
+
+        <div className="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+          <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-4 mx-auto text-orange-600">
+            <Truck size={24} />
+          </div>
+          <h3 className="text-lg font-bold text-slate-900 mb-2">Express Delivery</h3>
+          <p className="text-slate-500">Fast doorstep delivery with real-time tracking integration.</p>
+        </div>
+      </div>
+
+      <div className="bg-slate-900 text-white rounded-2xl p-8 max-w-3xl w-full flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="text-left">
+          <h4 className="text-xl font-bold mb-1">Need Medicine Urgently?</h4>
+          <p className="text-slate-300">You can still upload your prescription for immediate processing.</p>
+        </div>
+        <button 
+          onClick={isPage ? () => setView('UPLOAD') : scrollToUpload}
+          className="px-6 py-3 bg-primary-600 hover:bg-primary-500 text-white rounded-lg font-semibold transition-colors whitespace-nowrap shadow-lg hover:shadow-primary-500/25"
+        >
+          Upload Prescription
+        </button>
+      </div>
+    </div>
+  );
+
   const HomeView = () => (
     <div className="animate-fade-in">
       {/* Hero Section */}
@@ -51,7 +122,7 @@ const App: React.FC = () => {
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
-                    <button onClick={() => setView('UPLOAD')} className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg transition-all">
+                    <button onClick={scrollToUpload} className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg transition-all">
                       Upload Prescription
                     </button>
                   </div>
@@ -119,66 +190,22 @@ const App: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Coming Soon Section on Home */}
+      <div className="bg-slate-50 border-t border-slate-200">
+        <ComingSoonSection />
+      </div>
+
+      {/* Prescription Upload Section on Home */}
+      <div id="upload-section" className="bg-slate-50 pb-24 px-4">
+        <PrescriptionUpload />
+      </div>
     </div>
   );
 
   const ShopView = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in flex flex-col items-center justify-center text-center min-h-[60vh]">
-      <div className="absolute top-4 left-4">
-        <button onClick={() => setView('HOME')} className="text-slate-500 hover:text-primary-600 font-semibold flex items-center gap-2">
-           ← Back to Home
-        </button>
-      </div>
-      <div className="bg-primary-50 p-8 rounded-full mb-8 ring-8 ring-primary-50/50">
-        <Store className="w-20 h-20 text-primary-600" />
-      </div>
-      
-      <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-        Pharmacy Store <span className="text-primary-600">Coming Soon</span>
-      </h2>
-      
-      <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed">
-        We are building a comprehensive digital pharmacy experience. Soon you will be able to browse thousands of OTC medicines, wellness products, and medical devices directly from our app.
-      </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mb-12">
-        <div className="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-          <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 mx-auto text-blue-600">
-            <Pill size={24} />
-          </div>
-          <h3 className="text-lg font-bold text-slate-900 mb-2">Complete Range</h3>
-          <p className="text-slate-500">Access to a full inventory of prescription and OTC medications.</p>
-        </div>
-        
-        <div className="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-          <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-4 mx-auto text-green-600">
-            <ShieldCheck size={24} />
-          </div>
-          <h3 className="text-lg font-bold text-slate-900 mb-2">100% Authentic</h3>
-          <p className="text-slate-500">Directly sourced from authorized distributors with quality assurance.</p>
-        </div>
-
-        <div className="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-          <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-4 mx-auto text-orange-600">
-            <Truck size={24} />
-          </div>
-          <h3 className="text-lg font-bold text-slate-900 mb-2">Express Delivery</h3>
-          <p className="text-slate-500">Fast doorstep delivery with real-time tracking integration.</p>
-        </div>
-      </div>
-
-      <div className="bg-slate-900 text-white rounded-2xl p-8 max-w-3xl w-full flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="text-left">
-          <h4 className="text-xl font-bold mb-1">Need Medicine Urgently?</h4>
-          <p className="text-slate-300">You can still upload your prescription for immediate processing.</p>
-        </div>
-        <button 
-          onClick={() => setView('UPLOAD')}
-          className="px-6 py-3 bg-primary-600 hover:bg-primary-500 text-white rounded-lg font-semibold transition-colors whitespace-nowrap"
-        >
-          Upload Prescription
-        </button>
-      </div>
+    <div className="animate-fade-in relative min-h-[60vh] flex items-center justify-center">
+       <ComingSoonSection isPage={true} />
     </div>
   );
 
